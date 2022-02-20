@@ -1,14 +1,13 @@
 import { StatusBar } from 'expo-status-bar'
+import { Text, View, SafeAreaView, ScrollView, TextInput, Alert, TouchableOpacity } from 'react-native'
+import { useCallback, useState } from 'react'
 import { styles } from './Styles/global-style'
-import { Text, View, SafeAreaView, ScrollView, Button, TextInput, Alert, TouchableOpacity } from 'react-native'
 import { Header } from './Components/Header'
 import { Footer } from './Components/Footer'
-import react, { useCallback, useState } from 'react'
-import DropDownPicker, { ValueType } from 'react-native-dropdown-picker'
 import { RadioButton } from './Components/RadioButton'
-//import Cocktail from './assets/cocktail-svgrepo-com.svg'
+import DropDownPicker, { ValueType } from 'react-native-dropdown-picker'
 
-type Options = {
+export type Options = {
   key: string;
   text: string;
 }
@@ -30,7 +29,9 @@ export default function App() {
   const [isTimeOpen, setTimeOpen] = useState(false)
   const [value, setValue] = useState<ValueType | null>(null)
   const [scndValue, setScndValue] = useState<ValueType | null>(null)
-  const [result, setResult] = useState<number>(0)
+  const [result, setResult] = useState<string | number>(0)
+  const [isSubmited, setSubmited] = useState(false)
+  const [isWeight, setIsWeight] = useState(false)
   DropDownPicker.setListMode("SCROLLVIEW")
 
   const onBottlesOpen = useCallback(() => {
@@ -47,6 +48,13 @@ export default function App() {
     { label: '3 bottles', value: 3 },
     { label: '4 bottles', value: 4 },
     { label: '5 bottles', value: 5},
+    { label: '6 bottles', value: 6},
+    { label: '7 bottles', value: 7},
+    { label: '8 bottles', value: 8},
+    { label: '9 bottles', value: 9},
+    { label: '10 bottles', value: 10},
+    { label: '11 bottles', value: 11},
+    { label: '12 bottles', value: 12},
   ])
 
   const [time, setTime] = useState([
@@ -73,46 +81,39 @@ export default function App() {
     }
   }
   const onSubmit = () => {
-    console.log(selectedOption);
-    console.log(value)
     alcoholLevel()
   }
 
   const alert = () =>
   Alert.alert(
-    "Data missing!",
-    "You have to enter your weight.",
+    "Alcometer",
+    "Please enter your weight.",
     [
       {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") }
+        text: "OK",
+        onPress: () => console.log("Ok Pressed"),
+      }
     ]
   );
 
   const alcoholLevel= () => {
     if (weight) {
       if(selectedOption && value && scndValue) {
+        let litres = (value as number) * 0.33
+        let grams = litres * 8 * 4.5
+        let burning = parseInt(weight) / 10
+        let gramsLeft = grams - burning * (scndValue as number)
         if(selectedOption.key === 'male') {
-          let litres = value * 0.33
-          let grams = litres * 8 * 4.5
-          let burning = parseInt(weight) / 10
-          let gramsLeft = grams - burning * scndValue
-          let result = gramsLeft / (parseFloat(weight) * 0.7)
+          let result: number = gramsLeft / (parseFloat(weight) * 0.7)
           setResult(result.toFixed(2))
         } else if(selectedOption.key === 'female') {
-          let litres = value * 0.33
-          let grams = litres * 8 * 4.5
-          let burning = parseInt(weight) / 10
-          let gramsLeft = grams - burning * scndValue
           let result = gramsLeft / (parseFloat(weight) * 0.6)
           setResult(result.toFixed(2))
         }
+        setIsWeight(false)
       }
     } else {
-      alert()
+     alert()
     }
   }
 
@@ -121,41 +122,47 @@ export default function App() {
       <ScrollView>
         <View style={styles.contentWrapper}>
           <Header />
+          <Text style={styles.transparentText}>Weight</Text>
           <TextInput
             placeholder="Enter your weight" 
             placeholderTextColor={'#C0C7D4'}
             keyboardType="decimal-pad"
-            style={styles.input}
-            onChangeText={setWeight}
+            style={[styles.input, isWeight && weight != null ? styles.redBorder : styles.input]}
+            onChangeText={(value) => {
+              setWeight(value)
+              value != '' ? setIsWeight(false) : setIsWeight(true)
+            }}
             keyboardAppearance='dark'
           />
           <View style={styles.dropdown}>
-          <DropDownPicker 
-            placeholder='Select how many bottles you have drank'
-            zIndex={2}
-            open={isBottlesOpen}
-            onOpen={onBottlesOpen}
-            value={value}
-            setOpen={setBottlesOpen}
-            setValue={setValue}
-            setItems={setBottles}
-            multiple={false}
-            items={bottles}
-            theme='DARK'
-          />
-          <DropDownPicker
-            placeholder='How long has it been since your last drink?'
-            zIndex={1}
-            open={isTimeOpen}
-            onOpen={onTimeOpen}
-            value={scndValue}
-            setOpen={setTimeOpen}
-            setValue={setScndValue}
-            setItems={setTime}
-            multiple={false}
-            items={time}
-            theme='DARK'
-          />
+            <Text style={styles.transparentText}>Drinks</Text>
+            <DropDownPicker 
+              placeholder='Select how many bottles you had'
+              zIndex={2}
+              open={isBottlesOpen}
+              onOpen={onBottlesOpen}
+              value={value}
+              setOpen={setBottlesOpen}
+              setValue={setValue}
+              setItems={setBottles}
+              multiple={false}
+              items={bottles}
+              theme='DARK'
+            />
+            <Text style={styles.transparentText}>Time</Text>
+            <DropDownPicker
+              placeholder='How long has it been since your last drink?'
+              zIndex={1}
+              open={isTimeOpen}
+              onOpen={onTimeOpen}
+              value={scndValue}
+              setOpen={setTimeOpen}
+              setValue={setScndValue}
+              setItems={setTime}
+              multiple={false}
+              items={time}
+              theme='DARK'
+            />
           </View>
           <RadioButton
             selectedOption={selectedOption}
@@ -163,9 +170,8 @@ export default function App() {
             options={options}
           />
           <TouchableOpacity style={styles.button} onPress={onSubmit}>
-            <Text style={styles.buttonText}>Submit</Text>
+            <Text style={styles.buttonText}>Calculate</Text>
           </TouchableOpacity>
-          {/* <Button style={styles.button} title="SUBMIT" onPress={onSubmit} /> */}
           <View style={styles.resultWrapper}>
             <Text style={[styles.resultText, 
               result < 0.5 

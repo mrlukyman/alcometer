@@ -10,6 +10,12 @@ export const styles = StyleSheet.create({
   contentWrapper: {
     flex: 1,
     margin: 20,
+    height: '100%',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  radioWrapper: {
+    padding: 6,
   },
   Wrapper: {
     flex: 1,
@@ -31,7 +37,14 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
-    color: '#fff',
+    color: '#C0C7D4',
+  },
+  transparentText: {
+    fontSize: 20,
+    color: '#2A2D3D',
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+    paddingTop: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -62,7 +75,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000000',
     padding: 10,
-    marginBottom: 20,
+
     backgroundColor: '#2A2D3D',
   },
   button: {
@@ -81,12 +94,10 @@ export const styles = StyleSheet.create({
     maxWidth: '100%',
     zIndex: 100000,
     marginBottom: 20,
-    height: 120,
-    justifyContent: 'space-between',
   },
   resultWrapper: {
     flex: 1,
-    height: 200,
+    height: 100,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -104,5 +115,8 @@ export const styles = StyleSheet.create({
   },
   resultGreen: {
     color: '#00ff00a4',
+  },
+  redBorder: {
+    borderColor: '#ff0000',
   }
 });
