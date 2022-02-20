@@ -1,11 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar'
 import { styles } from './Styles/global-style'
-import { Text, View, SafeAreaView, ScrollView, Button, TextInput } from 'react-native';
-import { Header } from './Components/Header';
-import { Footer } from './Components/Footer';
-import react, { useCallback, useState } from 'react';
-import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
-import { RadioButton } from './Components/RadioButton';
+import { Text, View, SafeAreaView, ScrollView, Button, TextInput, Alert } from 'react-native'
+import { Header } from './Components/Header'
+import { Footer } from './Components/Footer'
+import react, { useCallback, useState } from 'react'
+import DropDownPicker, { ValueType } from 'react-native-dropdown-picker'
+import { RadioButton } from './Components/RadioButton'
+//import Cocktail from './assets/cocktail-svgrepo-com.svg'
 
 type Options = {
   key: string;
@@ -29,7 +30,8 @@ export default function App() {
   const [isTimeOpen, setTimeOpen] = useState(false)
   const [value, setValue] = useState<ValueType | null>(null)
   const [scndValue, setScndValue] = useState<ValueType | null>(null)
-  DropDownPicker.setListMode("SCROLLVIEW");
+  const [result, setResult] = useState<number>(0)
+  DropDownPicker.setListMode("SCROLLVIEW")
 
   const onBottlesOpen = useCallback(() => {
     setTimeOpen(false)
@@ -53,21 +55,65 @@ export default function App() {
     { label: '3 hours', value: 3 },
     { label: '4 hours', value: 4 },
     { label: '5 hours', value: 5 },
-
+    { label: '7 hours', value: 7 },
+    { label: '8 hours', value: 8 },
+    { label: '9 hours', value: 9 },
+    { label: '10 hours', value: 10 },
+    { label: '11 hours', value: 11},
+    { label: '12 hours', value: 12},
   ])
 
   const [selectedOption, setSelectedOption] = useState<Options | null>()
   
-
   const onSelect = (item: Options) => {
     if (selectedOption && selectedOption.key === item.key) {
       setSelectedOption(null);
     } else {
       setSelectedOption(item);
     }
-  };
+  }
   const onSubmit = () => {
     console.log(selectedOption);
+    console.log(value)
+    alcoholLevel()
+  }
+
+  const alert = () =>
+  Alert.alert(
+    "Data missing!",
+    "You have to enter your weight.",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "OK", onPress: () => console.log("OK Pressed") }
+    ]
+  );
+
+  const alcoholLevel= () => {
+    if (weight) {
+      if(selectedOption && value && scndValue) {
+        if(selectedOption.key === 'male') {
+          let litres = value * 0.33
+          let grams = litres * 8 * 4.5
+          let burning = parseInt(weight) / 10
+          let gramsLeft = grams - burning * scndValue
+          let result = gramsLeft / (parseFloat(weight) * 0.7)
+          setResult(result.toFixed(2))
+        } else if(selectedOption.key === 'female') {
+          let litres = value * 0.33
+          let grams = litres * 8 * 4.5
+          let burning = parseInt(weight) / 10
+          let gramsLeft = grams - burning * scndValue
+          let result = gramsLeft / (parseFloat(weight) * 0.6)
+          setResult(result.toFixed(2))
+        }
+      }
+    } else {
+      alert()
+    }
   }
 
   return (
@@ -115,12 +161,24 @@ export default function App() {
             onSelect={onSelect}
             options={options}
           />
+          <View style={styles.container}>
+            <Text style={[styles.resultText, 
+              result < 0.5 ? 
+              styles.resultGreen 
+              : result < 1.5 ?
+              styles.resultYellow
+              : styles.resultRed
+              
+            ]}>
+              {result < 0 ? '0.00' : result}
+            </Text>
+          </View>
           <Button title="SUBMIT" onPress={onSubmit} />
-          <Footer />
         </View>
       </ScrollView>
+          <Footer />
       <StatusBar style="light" />
     </SafeAreaView>
-  );
+  )
 }
 

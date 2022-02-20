@@ -1,5 +1,5 @@
-import react from 'react';
-import { View, Text } from 'react-native';
+import react from 'react'
+import { View, Text } from 'react-native'
 import { styles } from '../Styles/global-style'
 
 export const Header = () => {

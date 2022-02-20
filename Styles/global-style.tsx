@@ -17,6 +17,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 80,
   },
+  footerWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    margin: 0,
+    padding: 0
+  },
   headerText: {
     fontSize: 40,
     fontWeight: 'bold',
@@ -65,5 +72,23 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
     height: 120,
     justifyContent: 'space-between',
+  },
+  resultText: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  resultYellow: {
+    color: '#ffd900a4',
+  },
+  resultRed: {
+    color: '#ff0000a4',
+  },
+  resultGreen: {
+    color: '#00ff00a4',
   }
 });
