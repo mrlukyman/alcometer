@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import { styles } from './Styles/global-style'
-import { Text, View, SafeAreaView, ScrollView, Button, TextInput, Alert } from 'react-native'
+import { Text, View, SafeAreaView, ScrollView, Button, TextInput, Alert, Pressable, TouchableOpacity } from 'react-native'
 import { Header } from './Components/Header'
 import { Footer } from './Components/Footer'
 import react, { useCallback, useState } from 'react'
@@ -127,6 +127,7 @@ export default function App() {
             keyboardType="decimal-pad"
             style={styles.input}
             onChangeText={setWeight}
+            keyboardAppearance='dark'
           />
           <View style={styles.dropdown}>
           <DropDownPicker 
@@ -161,19 +162,22 @@ export default function App() {
             onSelect={onSelect}
             options={options}
           />
-          <View style={styles.container}>
+          <TouchableOpacity style={styles.button} onPress={onSubmit}>
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
+          {/* <Button style={styles.button} title="SUBMIT" onPress={onSubmit} /> */}
+          <View style={styles.resultWrapper}>
             <Text style={[styles.resultText, 
-              result < 0.5 ? 
-              styles.resultGreen 
-              : result < 1.5 ?
-              styles.resultYellow
+              result < 0.5 
+              ? styles.resultGreen 
+              : result < 1.5 
+              ? styles.resultYellow
               : styles.resultRed
               
             ]}>
               {result < 0 ? '0.00' : result}
             </Text>
           </View>
-          <Button title="SUBMIT" onPress={onSubmit} />
         </View>
       </ScrollView>
           <Footer />
