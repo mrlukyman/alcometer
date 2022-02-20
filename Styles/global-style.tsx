@@ -65,6 +65,17 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: '#2A2D3D',
   },
+  button: {
+    backgroundColor: '#30a2c5',
+    height: 50,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 25,
+  },
   dropdown: {
     flexDirection: 'column',
     maxWidth: '100%',
@@ -73,12 +84,15 @@ export const styles = StyleSheet.create({
     height: 120,
     justifyContent: 'space-between',
   },
-  resultText: {
+  resultWrapper: {
     flex: 1,
+    height: 200,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  resultText: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: 'bold',
     marginBottom: 20,
   },
