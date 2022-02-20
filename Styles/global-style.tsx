@@ -3,9 +3,13 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#1a1b1b',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  contentWrapper: {
+    flex: 1,
+    margin: 20,
   },
   Wrapper: {
     flex: 1,
@@ -29,18 +33,37 @@ export const styles = StyleSheet.create({
     marginBottom: 30,
   },
   circle: {
-      height: 20,
-      width: 20,
-      borderRadius: 10,
-      borderWidth: 1,
-      borderColor: '#ACACAC',
-      alignItems: 'center',
-      justifyContent: 'center',
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ACACAC',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   checkedCircle: {
-      width: 14,
-      height: 14,
-      borderRadius: 7,
-      backgroundColor: '#794F9B',
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    backgroundColor: '#30a2c5',
   },
+  input: {
+    color: '#fff',
+    fontSize: 15,
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#000000',
+    padding: 10,
+    marginBottom: 20,
+    backgroundColor: '#2A2D3D',
+  },
+  dropdown: {
+    flexDirection: 'column',
+    maxWidth: '100%',
+    zIndex: 100000,
+    marginBottom: 20,
+    height: 120,
+    justifyContent: 'space-between',
+  }
 });
