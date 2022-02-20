@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import { styles } from './Styles/global-style'
-import { Text, View, SafeAreaView, ScrollView, Button, TextInput, Alert, Pressable, TouchableOpacity } from 'react-native'
+import { Text, View, SafeAreaView, ScrollView, Button, TextInput, Alert, TouchableOpacity } from 'react-native'
 import { Header } from './Components/Header'
 import { Footer } from './Components/Footer'
 import react, { useCallback, useState } from 'react'
